@@ -1,5 +1,6 @@
 //*Navbar component - This component is fixed and it must be in the page even with after scrolling.
 //TODO: Create a smooth scroll link component 
+//TODO : Create a new button component in the shared folder
 import { useState } from "react";
 import { Bars3Icon } from '@heroicons/react/24/solid'
 import { XMarkIcon } from "@heroicons/react/20/solid";
@@ -7,6 +8,8 @@ import Logo from "@/assets/logo.png"
 import Link from "./link";
 import { SelectedPage } from "../../shared/types";
 import useMediaQuery from "../../hooks/useMediaQuery ";
+import ActionButton from "../../shared/ActionButton";
+
 
 type Props = {
     selectedPage: string,
@@ -43,8 +46,8 @@ const Navbar = ({ selectedPage, setSelectedPage }: Props) => {
                                         setSelectedPage={setSelectedPage} />
                                 </div>
                                 <div className={`${flexBetween} gap-8`}>
-                                    <button>Sign In</button>
-                                    <button>Visit our Store</button>
+                                    <p className="cursor-pointer">Sign In</p>
+                                    <ActionButton setSelectedPage={setSelectedPage} page={SelectedPage.Store}>Visit our Store</ActionButton>
                                 </div>
                             </div>) :
                             (
@@ -58,6 +61,40 @@ const Navbar = ({ selectedPage, setSelectedPage }: Props) => {
                     </div>
                 </div>
             </div>
+
+            {/* Mobile Menu */}
+            {!isAboveMediumScreen && isMenuToggled && (
+                <div className="fixed right-0 bottom-0 z-40 h-full w-[300px] bg-primary-100 drop-shadow-xl">
+                    {/* close button */}
+                    <div className="flex justify-end p-12">
+                        <button onClick={() => setIsMenuToggled(!isMenuToggled)}>
+                            <XMarkIcon className="h-6 w-6 text-gray-400"/>
+                        </button>
+                    </div>
+
+                    {/* MENU ITEMS */}
+                    <div className="flex flex-col ml-[33%] gap-10 text-2xl">
+                                    <Link
+                                        page="Home"
+                                        selectedPage={selectedPage}
+                                        setSelectedPage={setSelectedPage} />
+                                    <Link
+                                        page="Benefits"
+                                        selectedPage={selectedPage}
+                                        setSelectedPage={setSelectedPage} />
+                                    <Link
+                                        page="Our Classes"
+                                        selectedPage={selectedPage}
+                                        setSelectedPage={setSelectedPage} />
+                                    <Link page="Contact Us"
+                                        selectedPage={selectedPage}
+                                        setSelectedPage={setSelectedPage} />
+                                    <Link page="Store"
+                                        selectedPage={selectedPage}
+                                        setSelectedPage={setSelectedPage} />
+                                </div>
+                </div>
+            )}
         </nav>
     )
 }
