@@ -1,6 +1,4 @@
-//*Navbar component - This component is fixed and it must be in the page even with after scrolling.
-//TODO: Create a smooth scroll link component 
-//TODO : Create a new button component in the shared folder
+//*Navbar component - This component is fixed and it must be in the page even with after scrolling. 
 import { useState } from "react";
 import { Bars3Icon } from '@heroicons/react/24/solid'
 import { XMarkIcon } from "@heroicons/react/20/solid";
