@@ -14,7 +14,7 @@ type Props = {
 }
 
 const index = ({ setSelectedPage }: Props) => {
-  const isAboveMediumScreen = useMediaQuery("(min-width:1060px")
+  const isAboveMediumScreen = useMediaQuery("(min-width:1060px)")
 
   return (
     <section id='home' className='gap-16 bg-gray-20 py-10 md:h-full md:pb-0'>

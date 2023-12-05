@@ -2,7 +2,7 @@ import { HomeModernIcon, UserGroupIcon, AcademicCapIcon } from '@heroicons/react
 import { BenefitType, SelectedPage } from '../../shared/types'
 import { motion } from 'framer-motion'
 import HText from '../../shared/HText';
-import Benefit from './benefit';
+import Benefit from './Benefit';
 import ActionButton from '../../shared/ActionButton';
 import BenefitsHero from "../../assets/benfitsHero.png"
 
