@@ -11,9 +11,9 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(router);
 
-app.listen(1337, async () => {
+app.listen(3000, async () => {
     await connectdb();
     
-    console.log('Listening on port 1337');
+    console.log('Listening on port 3000');
 });
 

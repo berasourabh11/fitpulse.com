@@ -9,6 +9,7 @@ export interface IActivity extends Document {
 }
 
 // Define the Mongoose schema for the activity
+
 const activitySchema: Schema = new Schema({
     activityName: { type: String, required: true },
     activityId: { type: String, required: true, unique: true },
