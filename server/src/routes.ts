@@ -3,6 +3,10 @@ import validate from './middleware/validateResource';
 import getSessionsSchema from './schema/getSessionsSchema';
 import { getSessionController } from './controller/getSessionController';
 import addActivityController from './controller/addActivityController';
+import SignupSchema from './schema/signupSchema';
+import { signUpController } from './controller/signUpController';
+import { loginController } from './controller/loginController';
+import loginSchema from './schema/loginSchema';
 
 const router = express.Router();
 
@@ -12,8 +16,12 @@ router.get("/api/healthcheck",(req:Request,res:Response)=>{
     res.status(200).send("I am alive");
 });
 
-router.get("/api/getSessions/",validate(getSessionsSchema),getSessionController);
+// router.get("/api/getSessions/",validate(getSessionsSchema),getSessionController);
 
 router.post("/api/addActivty/",addActivityController);
+
+router.post("/api/signup/",validate(SignupSchema),signUpController);
+
+router.get("/api/login/",validate(loginSchema),loginController);
 
 export default router;
