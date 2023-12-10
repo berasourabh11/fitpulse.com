@@ -7,7 +7,7 @@ import SignupSchema from './schema/signupSchema';
 import { signUpController } from './controller/signUpController';
 import { loginController } from './controller/loginController';
 import loginSchema from './schema/loginSchema';
-
+import { addActivitySchema } from './schema/addActivitySchema';
 const router = express.Router();
 
 // Define your routes here
@@ -18,7 +18,7 @@ router.get("/api/healthcheck",(req:Request,res:Response)=>{
 
 // router.get("/api/getSessions/",validate(getSessionsSchema),getSessionController);
 
-router.post("/api/addActivty/",addActivityController);
+router.post("/api/addActivty/",validate(addActivitySchema),addActivityController);
 
 router.post("/api/signup/",validate(SignupSchema),signUpController);
 

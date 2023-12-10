@@ -1,38 +1,72 @@
 import { Request, Response } from 'express';
-import { IActivity } from '../models/activitiesModel';
 import ActivityModel from '../models/activitiesModel';
 import timeConverter from '../utils/timeConverter';
+import { sessonType } from '../utils/types';
+
 
 const addActivityController = async (req: Request, res: Response) => {
     try {
-        const { activityName, activityId, weekdays } = req.body.activityDetails;
+        const { activityName, activityId, sessions } = req.body.activityDetails;
 
-        // Validate types of activityName, activityId, and weekdays
-        if (typeof activityName !== 'string' || typeof activityId !== 'string' || !Array.isArray(weekdays)) {
+        if (typeof activityName !== 'string' || typeof activityId !== 'string') {
             throw new Error('Invalid request body structure');
         }
-
-        const convertedDays = weekdays.map((day: any) => {
-            return {
-                day: day.day,
-                sessions: day.sessions.map((session: any) => {
-                    return {
-                        startTime: timeConverter(session.startTime),
-                        endTime: timeConverter(session.endTime),
-                    };
-                }),
-            };
-        });
-
-        const activityDetails= {
+        const convertedSessions = {
             activityName: activityName,
             activityId: activityId,
-            weekdays: convertedDays,
-        };
+            sessions: {
+                sunday: sessions.sunday.map((session: sessonType) => ({
+                    startTime: timeConverter(session.startTime),
+                    endTime: timeConverter(session.endTime),
+                    slots: session.slots
+                })),
+                monday: sessions.monday.map((session: sessonType) => ({
+                    startTime: timeConverter(session.startTime),
+                    endTime: timeConverter(session.endTime),
+                    slots: session.slots
+                })),
+                tuesday: sessions.tuesday.map((session: sessonType) => ({
+                    startTime: timeConverter(session.startTime),
+                    endTime: timeConverter(session.endTime),
+                    slots: session.slots
+                })),
+                wednesday: sessions.wednesday.map((session: sessonType) => ({
+                    startTime: timeConverter(session.startTime),
+                    endTime: timeConverter(session.endTime),
+                    slots: session.slots
+                })),
+                thursday: sessions.thursday.map((session: sessonType) => ({
+                    startTime: timeConverter(session.startTime),
+                    endTime: timeConverter(session.endTime),
+                    slots: session.slots
+                })),
+                friday: sessions.friday.map((session: sessonType) => ({
+                    startTime: timeConverter(session.startTime),
+                    endTime: timeConverter(session.endTime),
+                    slots: session.slots
+                })),
+                saturday: sessions.saturday.map((session: sessonType) => ({
+                    startTime: timeConverter(session.startTime),
+                    endTime: timeConverter(session.endTime),
+                    slots: session.slots
+                }))
+            }
+        }
 
-        const newActivity = new ActivityModel(activityDetails);
+        // Check if the activity already exists
+        const activity = await ActivityModel.findOne({ activityId: activityId });
+        if (activity) {
+            res.status(409).json({message:"Activity already exists"});
+            return;
+        }
+
+        // Create a new activity
+        const newActivity = new ActivityModel(convertedSessions);
         await newActivity.save();
-        res.status(200).json({ message: 'Activity created successfully' });
+
+        res.status(200).json({ message: `Activity ${activityName} added successfully` });
+
+
     } catch (error) {
         // Handle any errors that occur during the process
         console.log(error);
