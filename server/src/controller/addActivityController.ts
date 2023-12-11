@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import ActivityModel from '../models/activitiesModel';
 import timeConverter from '../utils/timeConverter';
 import { sessonType } from '../utils/types';
+import { convertTimeTo24HrFormat } from '../utils/convertTimeToSting';
 
 
 const addActivityController = async (req: Request, res: Response) => {
@@ -16,38 +17,38 @@ const addActivityController = async (req: Request, res: Response) => {
             activityId: activityId,
             sessions: {
                 sunday: sessions.sunday.map((session: sessonType) => ({
-                    startTime: timeConverter(session.startTime),
-                    endTime: timeConverter(session.endTime),
+                    startTime: convertTimeTo24HrFormat(session.startTime),
+                    endTime: convertTimeTo24HrFormat(session.endTime),
                     slots: session.slots
                 })),
                 monday: sessions.monday.map((session: sessonType) => ({
-                    startTime: timeConverter(session.startTime),
-                    endTime: timeConverter(session.endTime),
+                    startTime: convertTimeTo24HrFormat(session.startTime),
+                    endTime: convertTimeTo24HrFormat(session.endTime),
                     slots: session.slots
                 })),
                 tuesday: sessions.tuesday.map((session: sessonType) => ({
-                    startTime: timeConverter(session.startTime),
-                    endTime: timeConverter(session.endTime),
+                    startTime: convertTimeTo24HrFormat(session.startTime),
+                    endTime: convertTimeTo24HrFormat(session.endTime),
                     slots: session.slots
                 })),
                 wednesday: sessions.wednesday.map((session: sessonType) => ({
-                    startTime: timeConverter(session.startTime),
-                    endTime: timeConverter(session.endTime),
+                    startTime: convertTimeTo24HrFormat(session.startTime),
+                    endTime: convertTimeTo24HrFormat(session.endTime),
                     slots: session.slots
                 })),
                 thursday: sessions.thursday.map((session: sessonType) => ({
-                    startTime: timeConverter(session.startTime),
-                    endTime: timeConverter(session.endTime),
+                    startTime: convertTimeTo24HrFormat(session.startTime),
+                    endTime: convertTimeTo24HrFormat(session.endTime),
                     slots: session.slots
                 })),
                 friday: sessions.friday.map((session: sessonType) => ({
-                    startTime: timeConverter(session.startTime),
-                    endTime: timeConverter(session.endTime),
+                    startTime: convertTimeTo24HrFormat(session.startTime),
+                    endTime: convertTimeTo24HrFormat(session.endTime),
                     slots: session.slots
                 })),
                 saturday: sessions.saturday.map((session: sessonType) => ({
-                    startTime: timeConverter(session.startTime),
-                    endTime: timeConverter(session.endTime),
+                    startTime: convertTimeTo24HrFormat(session.startTime),
+                    endTime: convertTimeTo24HrFormat(session.endTime),
                     slots: session.slots
                 }))
             }
