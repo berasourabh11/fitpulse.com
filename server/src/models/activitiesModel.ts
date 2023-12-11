@@ -10,50 +10,50 @@ const activitySchema: Schema = new Schema({
     sessions: {
         sunday: [
             {
-                startTime: { type: Date, required: true },
-                endTime: { type: Date, required: true },
+                startTime: { type: String, required: true },
+                endTime: { type: String, required: true },
                 slots: { type: Number, required: true },
             },
         ],
         monday: [
             {
-                startTime: { type: Date, required: true },
-                endTime: { type: Date, required: true },
+                startTime: { type: String, required: true },
+                endTime: { type: String, required: true },
                 slots: { type: Number, required: true },
             },
         ],
         tuesday: [
             {
-                startTime: { type: Date, required: true },
-                endTime: { type: Date, required: true },
+                startTime: { type: String, required: true },
+                endTime: { type: String, required: true },
                 slots: { type: Number, required: true },
             },
         ],
         wednesday: [
             {
-                startTime: { type: Date, required: true },
-                endTime: { type: Date, required: true },
+                startTime: { type: String, required: true },
+                endTime: { type: String, required: true },
                 slots: { type: Number, required: true },
             },
         ],
         thursday: [
             {
-                startTime: { type: Date, required: true },
-                endTime: { type: Date, required: true },
+                startTime: { type: String, required: true },
+                endTime: { type: String, required: true },
                 slots: { type: Number, required: true },
             },
         ],
         friday: [
             {
-                startTime: { type: Date, required: true },
-                endTime: { type: Date, required: true },
+                startTime: { type: String, required: true },
+                endTime: { type: String, required: true },
                 slots: { type: Number, required: true },
             },
         ],
         saturday: [
             {
-                startTime: { type: Date, required: true },
-                endTime: { type: Date, required: true },
+                startTime: { type: String, required: true },
+                endTime: { type: String, required: true },
                 slots: { type: Number, required: true },
             },
         ],
