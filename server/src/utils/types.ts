@@ -14,19 +14,13 @@ export type timeDetails={
 
 
 export interface ISession {
-    startTime: Date;
-    endTime: Date;
+    startTime: String;
+    endTime: String;
     slots: number;
 }
 
 export interface IWeekdays {
-    sunday:ISession[];
-    monday:ISession[];
-    tuesday:ISession[];
-    wednesday:ISession[];
-    thursday:ISession[];
-    friday:ISession[];
-    saturday:ISession[];
+    [key: string]: ISession[]; 
 }
 
 export interface IActivity extends Document {

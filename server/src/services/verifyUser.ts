@@ -14,7 +14,6 @@ async function verifyUserAndGenerateJWT(username: string, password: string): Pro
         }
 
         // Compare the provided password with the stored password hash
-        console.log('password', password);
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (!isPasswordValid) {

@@ -8,6 +8,8 @@ import { signUpController } from './controller/signUpController';
 import { loginController } from './controller/loginController';
 import loginSchema from './schema/loginSchema';
 import { addActivitySchema } from './schema/addActivitySchema';
+import { bookSessionController } from './controller/booksessionController';
+import verifyToken from './middleware/verifyToken';
 const router = express.Router();
 
 // Define your routes here
@@ -23,5 +25,7 @@ router.post("/api/addActivty/",validate(addActivitySchema),addActivityController
 router.post("/api/signup/",validate(SignupSchema),signUpController);
 
 router.get("/api/login/",validate(loginSchema),loginController);
+
+router.post("/api/booksession/",verifyToken,bookSessionController);
 
 export default router;
