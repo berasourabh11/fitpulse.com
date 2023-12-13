@@ -1,7 +1,6 @@
 import express , {Request,Response} from 'express';
 import validate from './middleware/validateResource';
-import getSessionsSchema from './schema/getSessionsSchema';
-import { getSessionController } from './controller/getSessionController';
+import getSessionsByDate from './schema/getSessionsByDate';
 import addActivityController from './controller/addActivityController';
 import SignupSchema from './schema/signupSchema';
 import { signUpController } from './controller/signUpController';
@@ -11,6 +10,7 @@ import { addActivitySchema } from './schema/addActivitySchema';
 import { bookSessionController } from './controller/booksessionController';
 import verifyToken from './middleware/verifyToken';
 import bookSessionSchema from './schema/bookSessionSchema';
+import { getSessionsByDateController } from './controller/getSessionsByDateController';
 const router = express.Router();
 
 // Define your routes here
@@ -19,7 +19,7 @@ router.get("/api/healthcheck",(req:Request,res:Response)=>{
     res.status(200).send("I am alive");
 });
 
-// router.get("/api/getSessions/",validate(getSessionsSchema),getSessionController);
+router.get("/api/getSessionsByDate/",validate(getSessionsByDate),getSessionsByDateController);
 
 router.post("/api/addActivty/",validate(addActivitySchema),addActivityController);
 

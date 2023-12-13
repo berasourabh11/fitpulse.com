@@ -4,6 +4,8 @@ interface IBookedSession extends Document {
     activityName: string;
     activityId: string;
     activityDate: Date;
+    activityTime: string;
+    activityDay: string;
     sessionUsers: mongoose.Types.ObjectId[]; // Use mongoose.Types.ObjectId as the type
 }
 
@@ -15,7 +17,7 @@ const bookedSessionSchema: Schema = new Schema({
     activityDay: { type: String, required: true },
     sessionUsers: {
         type: [Schema.Types.ObjectId],
-        ref: 'users',
+        ref: 'Users',
         default: [], // Default value is an empty array
     },
 });
