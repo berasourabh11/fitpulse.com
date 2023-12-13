@@ -10,6 +10,7 @@ import loginSchema from './schema/loginSchema';
 import { addActivitySchema } from './schema/addActivitySchema';
 import { bookSessionController } from './controller/booksessionController';
 import verifyToken from './middleware/verifyToken';
+import bookSessionSchema from './schema/bookSessionSchema';
 const router = express.Router();
 
 // Define your routes here
@@ -26,6 +27,6 @@ router.post("/api/signup/",validate(SignupSchema),signUpController);
 
 router.get("/api/login/",validate(loginSchema),loginController);
 
-router.post("/api/booksession/",verifyToken,bookSessionController);
+router.post("/api/booksession/",verifyToken,validate(bookSessionSchema),bookSessionController);
 
 export default router;
