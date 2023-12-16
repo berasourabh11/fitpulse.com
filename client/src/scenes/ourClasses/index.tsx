@@ -8,6 +8,7 @@ import MMA from '../../assets/MMA.jpg';
 import { motion } from 'framer-motion';
 import HText from '../../shared/HText';
 import Session from './Session';
+import ClassModal from "../../shared/modals/ClassModal"
 import useMediaQuery from '../../hooks/useMediaQuery ';
 
 type ImageType = {
@@ -72,10 +73,11 @@ const OurClasses = ({ setSelectedPage }: Props) => {
             ))}
           </motion.div>
         </motion.div>
-        <div>
-          
-        </div>
       </motion.div>
+      <ClassModal 
+        classInfo={"selectedClass"} 
+        onClose={() => console.log("close")} 
+      />
     </section>
   )
 }

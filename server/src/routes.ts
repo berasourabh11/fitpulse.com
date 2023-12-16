@@ -12,6 +12,7 @@ import verifyToken from './middleware/verifyToken';
 import bookSessionSchema from './schema/bookSessionSchema';
 import { getSessionsByDateController } from './controller/getSessionsByDateController';
 import getAllActivitiesController from './controller/getAllActivityController';
+import getActivityScheduleController  from './controller/getActivityScheduleController';
 const router = express.Router();
 
 // Define your routes here
@@ -31,5 +32,8 @@ router.get("/api/login/",validate(loginSchema),loginController);
 router.post("/api/booksession/",verifyToken,validate(bookSessionSchema),bookSessionController);
 
 router.get("/api/getAllActivities/",getAllActivitiesController);
+
+router.get("/api/getActivitySchedule/",getActivityScheduleController);
+
 
 export default router;
