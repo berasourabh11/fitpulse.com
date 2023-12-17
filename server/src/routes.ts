@@ -16,10 +16,16 @@ import getActivityScheduleController  from './controller/getActivityScheduleCont
 import multer from 'multer';
 import cloudinary from './services/cloudinary';
 import bodyParser from 'body-parser';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
+
+const cloudStorage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+});
+const upload = multer({storage: cloudStorage});
+
 
 const router = express.Router();
-const storage = multer.diskStorage({});
-const upload = multer({storage});
+
 
 //test route for file upload
 router.post("/api/upload",upload.single('file'),async (req,res:Response)=>{

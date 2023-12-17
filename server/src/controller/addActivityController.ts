@@ -3,8 +3,6 @@ import ActivityModel from '../models/activitiesModel';
 import timeConverter from '../utils/timeConverter';
 import { sessonType } from '../utils/types';
 import { convertTimeTo24HrFormat } from '../utils/convertTimeToSting';
-import Cloudinary from '../services/cloudinary';
-
 
 
 const addActivityController = async (req: Request, res: Response) => {
@@ -21,8 +19,10 @@ const addActivityController = async (req: Request, res: Response) => {
         if (!req.file) {
             throw new Error('No image file provided');
         }
-        const result = await Cloudinary.uploader.upload(req.file.path);
-        const imageUrl = result.url;
+        if(!req.file.path){
+            throw new Error('Coudlnt upload image file');
+        }
+        const imageUrl = req.file.path;
 
         const convertedSessions = {
             activityName: activityName,
