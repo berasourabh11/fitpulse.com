@@ -28,10 +28,12 @@ const DaySchema = z.object({
 
 export const addActivitySchema = z.object({
     body: z.object({
+        activityDetails: z.object({
             activityName: z.string(),
             activityId: z.number(),
             sessions: DaySchema,
         })
+    })
 });
 
 

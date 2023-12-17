@@ -15,6 +15,7 @@ import getAllActivitiesController from './controller/getAllActivityController';
 import getActivityScheduleController  from './controller/getActivityScheduleController';
 import multer from 'multer';
 import cloudinary from './services/cloudinary';
+import bodyParser from 'body-parser';
 
 const router = express.Router();
 const storage = multer.diskStorage({});
@@ -34,6 +35,19 @@ router.get("/api/healthcheck",(req:Request,res:Response)=>{
 });
 
 router.get("/api/getSessionsByDate/",validate(getSessionsByDate),getSessionsByDateController);
+
+// ...
+
+
+router.post("/api/addActivty/", upload.single('file'),(req, res, next) => {
+    if (req.body.activityDetails) {
+        req.body.activityDetails = JSON.parse(req.body.activityDetails);
+    }
+    console.log(req.body);
+    next();
+},validate(addActivitySchema), addActivityController);
+
+// ...
 
 router.post("/api/addActivty/",upload.single('file'),addActivityController);
 

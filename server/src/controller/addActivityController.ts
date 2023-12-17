@@ -9,15 +9,8 @@ import Cloudinary from '../services/cloudinary';
 
 const addActivityController = async (req: Request, res: Response) => {
     try {
-        const activityDetails = req.body.activityDetails !== undefined ? JSON.parse(req.body.activityDetails) : null;
-        if(!activityDetails){
-            return res.status(400).json({message: "Invalid request body structure"});
-        }
-        const { activityName, activityId, sessions } = activityDetails;
+        const { activityName, activityId, sessions } = req.body.activityDetails;
 
-        if (typeof activityName !== 'string' || typeof activityId !== 'string') {
-            throw new Error('Invalid request body structure');
-        }
 
         const existingActivity = await ActivityModel.findOne({ activityId: activityId });
         if (existingActivity) {
