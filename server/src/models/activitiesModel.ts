@@ -6,7 +6,8 @@ import { IActivity } from '../utils/types';
 
 const activitySchema: Schema = new Schema({
     activityName: { type: String, required: true },
-    activityId: { type: String, required: true, unique: true },
+    activityId: { type: Number, required: true, unique: true },
+    imageUrl: {type: String, required: true},
     sessions: {
         sunday: [
             {

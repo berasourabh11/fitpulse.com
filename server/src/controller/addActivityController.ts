@@ -3,18 +3,38 @@ import ActivityModel from '../models/activitiesModel';
 import timeConverter from '../utils/timeConverter';
 import { sessonType } from '../utils/types';
 import { convertTimeTo24HrFormat } from '../utils/convertTimeToSting';
+import Cloudinary from '../services/cloudinary';
+
 
 
 const addActivityController = async (req: Request, res: Response) => {
     try {
-        const { activityName, activityId, sessions } = req.body.activityDetails;
+        const activityDetails = req.body.activityDetails !== undefined ? JSON.parse(req.body.activityDetails) : null;
+        if(!activityDetails){
+            return res.status(400).json({message: "Invalid request body structure"});
+        }
+        const { activityName, activityId, sessions } = activityDetails;
 
         if (typeof activityName !== 'string' || typeof activityId !== 'string') {
             throw new Error('Invalid request body structure');
         }
+
+        const existingActivity = await ActivityModel.findOne({ activityId: activityId });
+        if (existingActivity) {
+            res.status(409).json({message: "Activity already exists"});
+            return;
+        }
+
+        if (!req.file) {
+            throw new Error('No image file provided');
+        }
+        const result = await Cloudinary.uploader.upload(req.file.path);
+        const imageUrl = result.url;
+
         const convertedSessions = {
             activityName: activityName,
             activityId: activityId,
+            imageUrl: imageUrl,
             sessions: {
                 sunday: sessions.sunday.map((session: sessonType) => ({
                     startTime: convertTimeTo24HrFormat(session.startTime),
@@ -52,13 +72,6 @@ const addActivityController = async (req: Request, res: Response) => {
                     slots: session.slots
                 }))
             }
-        }
-
-        // Check if the activity already exists
-        const activity = await ActivityModel.findOne({ activityId: activityId });
-        if (activity) {
-            res.status(409).json({message:"Activity already exists"});
-            return;
         }
 
         // Create a new activity

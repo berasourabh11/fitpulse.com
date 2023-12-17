@@ -25,8 +25,9 @@ export interface IWeekdays {
 
 export interface IActivity extends Document {
     activityName: string;
-    activityId: string;
+    activityId: number;
     sessions: IWeekdays;
+    imageUrl: string;
 }
 
 export type sessonType = {

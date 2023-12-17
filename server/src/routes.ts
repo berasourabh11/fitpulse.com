@@ -13,7 +13,19 @@ import bookSessionSchema from './schema/bookSessionSchema';
 import { getSessionsByDateController } from './controller/getSessionsByDateController';
 import getAllActivitiesController from './controller/getAllActivityController';
 import getActivityScheduleController  from './controller/getActivityScheduleController';
+import multer from 'multer';
+import cloudinary from './services/cloudinary';
+
 const router = express.Router();
+const storage = multer.diskStorage({});
+const upload = multer({storage});
+
+//test route for file upload
+router.post("/api/upload",upload.single('file'),async (req,res:Response)=>{
+    console.log(req.file);
+    console.log(req.body);
+    res.status(200).send("File uploaded successfully");
+});
 
 // Define your routes here
 
@@ -23,7 +35,7 @@ router.get("/api/healthcheck",(req:Request,res:Response)=>{
 
 router.get("/api/getSessionsByDate/",validate(getSessionsByDate),getSessionsByDateController);
 
-router.post("/api/addActivty/",validate(addActivitySchema),addActivityController);
+router.post("/api/addActivty/",upload.single('file'),addActivityController);
 
 router.post("/api/signup/",validate(SignupSchema),signUpController);
 
