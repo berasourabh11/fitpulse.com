@@ -3,7 +3,7 @@ import router from './routes';
 import cors from 'cors';
 import 'dotenv/config';
 import connectdb from './utils/connectdb';
-import multer from 'multer';
+
 
 const app = express();
 app.use(cors());
