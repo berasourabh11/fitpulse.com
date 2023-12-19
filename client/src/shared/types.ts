@@ -11,3 +11,9 @@ export enum SelectedPage {
     title: string,
     description: string
   }
+
+  export type Activity = {
+    activityId: number;
+    activityName: string;
+    imageurl: string;
+  };
