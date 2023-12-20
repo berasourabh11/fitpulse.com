@@ -7,6 +7,8 @@ import Link from "./link";
 import { SelectedPage } from "../../shared/types";
 import useMediaQuery from "../../hooks/useMediaQuery ";
 import ActionButton from "../../shared/ActionButton";
+import CustomButton from "../../shared/CustomButton";
+import { useNavigate } from 'react-router-dom';
 
 
 type Props = {
@@ -15,12 +17,20 @@ type Props = {
     isTopOfPage: boolean
 }
 
+
+
 const Navbar = ({isTopOfPage,selectedPage, setSelectedPage }: Props) => {
     const flexBetween = "flex items-center justify-between"
     const [isMenuToggled, setIsMenuToggled] = useState<boolean>(false)
     const isAboveMediumScreen = useMediaQuery("(min-width:1060px)")
     const navbarBackground = isTopOfPage ? "" : "bg-primary-100 drop-shadow"
     
+    const navigate = useNavigate();
+
+    const handleNavigation = (path:string) => {
+        navigate(path);
+    }
+
     return (
         <nav>
             <div className={`${navbarBackground} ${flexBetween} fixed top-0 z-30 w-full py-6`} >
@@ -48,7 +58,11 @@ const Navbar = ({isTopOfPage,selectedPage, setSelectedPage }: Props) => {
                                 </div>
                                 <div className={`${flexBetween} gap-8`}>
                                     <p className="cursor-pointer">Sign In</p>
-                                    <ActionButton setSelectedPage={setSelectedPage} page={SelectedPage.Store}>Visit our Store</ActionButton>
+                                    <CustomButton 
+                                    onClick={() => handleNavigation('/book-a-class')}
+                                    >
+                                        Book a Class
+                                    </CustomButton>
                                 </div>
                             </div>) :
                             (
