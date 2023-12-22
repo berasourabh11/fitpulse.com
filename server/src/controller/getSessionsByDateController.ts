@@ -32,7 +32,7 @@ export const getSessionsByDateController = async (req: Request, res: Response) =
           startTime: session.startTime,
           endTime: session.endTime,
           slots: session.slots - bookedSessionsByTime[session.startTime].length,
-          users: bookedSessionsByTime[session.startTime],
+          // users: bookedSessionsByTime[session.startTime],
         }
       }
       );
