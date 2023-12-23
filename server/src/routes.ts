@@ -40,7 +40,7 @@ router.get("/api/healthcheck",(req:Request,res:Response)=>{
     res.status(200).send("I am alive");
 });
 
-router.get("/api/getSessionsByDate/",validate(getSessionsByDate),getSessionsByDateController);
+router.post("/api/getSessionsByDate/",validate(getSessionsByDate),getSessionsByDateController);
 
 // ...
 

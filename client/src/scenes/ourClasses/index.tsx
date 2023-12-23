@@ -4,6 +4,7 @@ import HText from '../../shared/HText';
 import Session from './Session';
 import { useEffect, useState } from 'react';
 import { getSessionsTitles } from '../../shared/api/apiCalls';
+import ClassModal from './ClassModal';
 
 
 
@@ -22,6 +23,15 @@ type Props = {
 const OurClasses = ({ setSelectedPage }: Props) => {
   const [activities, setActivities] = useState<Activity[]>([]);
   const [renderClasses, setRenderClasses] = useState<boolean>(false);
+  const [modalContent, setModalContent] = useState<Activity | null>(null);
+
+  const addModalContent = (activity: Activity) => {
+    setModalContent(activity);
+  }
+  const removeModalContent = () => {
+    setModalContent(null);
+  }
+
   useEffect(() => {
     // Call getSessionsTitles when the component mounts
     const fetchData = async () => {
@@ -37,6 +47,15 @@ const OurClasses = ({ setSelectedPage }: Props) => {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if(modalContent){
+      document.body.style.overflow = 'hidden';
+    }else{
+      document.body.style.overflow = 'auto';
+    }
+  }, [modalContent]);
+
   return (
     <section id='ourclasses' className='w-full bg-primary-100 py-20' >
       <motion.div
@@ -64,20 +83,20 @@ const OurClasses = ({ setSelectedPage }: Props) => {
           <motion.div
             initial="hidden"
             whileInView="visible"
-            variants={container}
+            variants={container}  
             className='grid grid-cols-1 md:grid-cols-3 gap-4 mt-5'>
             {renderClasses === true && (
               activities.map((activity) => (
-                <Session key={activity.activityId} activityId={activity.activityId} activityName={activity.activityName} imageurl={activity.imageurl} />
+                <Session key={activity.activityId} activityId={activity.activityId} activityName={activity.activityName} imageurl={activity.imageurl} addModalContent={addModalContent}/>
               ))
             )}
           </motion.div>
         </motion.div>
       </motion.div>
-      {/* <ClassModal 
-        classInfo={"selectedClass"} 
-        onClose={() => console.log("close")} 
-      /> */}
+      {modalContent && <ClassModal 
+        activityDetails = {modalContent}
+        closeModal={removeModalContent}
+      />}
     </section>
   )
 }

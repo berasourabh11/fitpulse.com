@@ -1,15 +1,20 @@
 import { motion } from "framer-motion";
 import { Activity } from "../../shared/types";
 
-type Props = Activity
+type Props = Activity & {
+    addModalContent: (activity: Activity) => void;
+}
 const childVariants ={
     hidden : {opacity :0 , scale : 0.9},
     visible : {opacity : 1, scale : 1}
 }
 
-const Session = ({imageurl,activityName}: Props) => {
+const Session = ({imageurl,activityName,activityId,addModalContent}: Props) => {
+    const handleClick = () => {
+        addModalContent({imageurl,activityName,activityId})
+    }
     return (
-        <motion.div variants={childVariants}className='relative group cursor-pointer'>
+        <motion.div variants={childVariants}className='relative group cursor-pointer' onClick={handleClick}>
             <img src={imageurl} alt={activityName} className='w-full h-auto' />
             <div className='absolute inset-0 bg-opacity-30 group-hover:bg-opacity-50 bg-gray-900 flex items-center justify-center transition duration-300'>
                 <p className='text-white text-2xl font-semibold shadow-lg text-shadow-lg'>{activityName}</p>
