@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { BarLoader } from 'react-spinners';
 import { Activity } from './types';
 import { getSessionsByDate } from './api/apiCalls';
+import ButtonEnableDisable from './ButtonEnableDisable';
 
 type Props = {
     activityDetails: Activity;
@@ -82,24 +83,49 @@ const ClassCalender = ({ activityDetails }: Props) => {
                 ) : (
                     <div className="flex flex-col h-96">
                         {classDetails.map((session, index) => (
-                            <div key={index} className="flex justify-between items-center border-b border-gray-400 py-4">
+                            <div key={index} className={`flex justify-between items-center border-b border-gray-400 py-4 ${isSessionPassed(session.startTime,weekDetails.datesOfWeek[selectedDay]) ? 'opacity-50' : ''}`}>
                                 <div className="flex flex-col">
-                                    <div className="text-xl font-semibold">{session.startTime} - {session.endTime}</div>
+                                    <div className="text-xl font-semibold">
+                                        {formatTime(session.startTime)} - {formatTime(session.endTime)}
+                                    </div>
                                     <div className="text-gray-500">{session.slots} slots available</div>
                                 </div>
-                                <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md">Book</button>
+                                <ButtonEnableDisable isEnabled={session.slots > 0 && !isSessionPassed(session.startTime,weekDetails.datesOfWeek[selectedDay])} />
                             </div>
                         ))}
                     </div>
                 )}
             </div>
-
-
         </div>
-
-    )
+    );
 }
 
+
+function isSessionPassed(startTime: string, sessionDate: string): boolean {
+    // Parse the input time string in "HH:mm:ss" format
+    const [hour, minute, second] = startTime.split(':').map(Number);
+
+    // Parse the session date in "yyyy-MM-dd" format
+    const [year, month, day] = sessionDate.split('-').map(Number);
+
+    // Create Date objects with the current date and time
+    const currentDate = new Date();
+    const sessionTime = new Date();
+    
+    sessionTime.setFullYear(year);
+    sessionTime.setMonth(month - 1); // Months are 0-based in JavaScript, so subtract 1
+    sessionTime.setDate(day);
+    sessionTime.setHours(hour);
+    sessionTime.setMinutes(minute);
+    sessionTime.setSeconds(second);
+
+    // Set the timezone for both Date objects
+    currentDate.setTime(currentDate.getTime() + currentDate.getTimezoneOffset() * 60 * 1000);
+    sessionTime.setTime(sessionTime.getTime() + sessionTime.getTimezoneOffset() * 60 * 1000);
+
+    // Compare the current date and time with the session date and time
+    return currentDate > sessionTime;
+}
 function getCurrentWeekdayIndexIST(): number {
     const currentDate = new Date();
     // Set the timezone offset for Indian Standard Time (IST)
@@ -153,6 +179,11 @@ function getWeekDates(offset: number): {
         endMonth: endMonth,
         datesOfWeek: datesOfWeek,
     };
+}
+
+function formatTime(timeString: string): string {
+    const time = new Date(`1970-01-01T${timeString}`);
+    return time.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
 }
 
 export default ClassCalender
