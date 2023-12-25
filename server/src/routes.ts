@@ -59,7 +59,7 @@ router.post("/api/addActivty/",upload.single('file'),addActivityController);
 
 router.post("/api/signup/",validate(SignupSchema),signUpController);
 
-router.get("/api/login/",validate(loginSchema),loginController);
+router.post("/api/login/",validate(loginSchema),loginController);
 
 router.post("/api/booksession/",verifyToken,validate(bookSessionSchema),bookSessionController);
 

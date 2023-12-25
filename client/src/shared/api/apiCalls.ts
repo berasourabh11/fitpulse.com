@@ -24,3 +24,4 @@ export const getSessionsByDate = async (activityName: string, activityId: number
     console.log(error);
   }
 }
+

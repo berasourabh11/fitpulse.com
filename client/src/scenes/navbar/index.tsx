@@ -9,6 +9,7 @@ import useMediaQuery from "../../hooks/useMediaQuery ";
 import ActionButton from "../../shared/ActionButton";
 import CustomButton from "../../shared/CustomButton";
 import { useNavigate } from 'react-router-dom';
+import { useAuthModal } from "../../shared/contexts/AuthModalContext";
 
 
 type Props = {
@@ -21,6 +22,7 @@ type Props = {
 
 const Navbar = ({isTopOfPage,selectedPage, setSelectedPage }: Props) => {
     const flexBetween = "flex items-center justify-between"
+    const {openAuthModal} = useAuthModal();
     const [isMenuToggled, setIsMenuToggled] = useState<boolean>(false)
     const isAboveMediumScreen = useMediaQuery("(min-width:1060px)")
     const navbarBackground = isTopOfPage ? "" : "bg-primary-100 drop-shadow"
@@ -57,7 +59,7 @@ const Navbar = ({isTopOfPage,selectedPage, setSelectedPage }: Props) => {
                                         setSelectedPage={setSelectedPage} />
                                 </div>
                                 <div className={`${flexBetween} gap-8`}>
-                                    <p className="cursor-pointer">Sign In</p>
+                                    <p className="cursor-pointer" onClick={openAuthModal}>Sign In</p>
                                     <CustomButton 
                                     onClick={() => handleNavigation('/book-a-class')}
                                     >

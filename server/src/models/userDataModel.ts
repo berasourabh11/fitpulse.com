@@ -7,11 +7,13 @@ export interface IUserData extends Document {
   role: 'user' | 'admin'; 
   firstname: string;
   lastname: string;
+  email: string;
 }
   const UserData: Schema = new Schema({
     username: { type: String, required: true },
     password: { type: String, required: true },
     role: { type: String, enum: ['user', 'admin'], required: true },
+    email: { type: String, required: true },
     firstname: { type: String, required: true },
     lastname: { type: String, required: true },
   });
