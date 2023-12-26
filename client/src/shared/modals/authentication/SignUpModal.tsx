@@ -70,7 +70,10 @@ const SignUpModal = ({ closeSignUpModal, setSuccessMessage }: Props) => {
       <h1 className="text-3xl text-black mb-6">Sign Up for a New Account</h1>
       {/* Form Section */}
       <div className="space-y-4">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={(e) => {
+          e.preventDefault()
+          handleSubmit()
+        }}>
 
           <div className="flex space-x-4">
             <input type="text" placeholder='First Name' className='flex-1 border-2 border-gray-300 rounded-md p-2' value={firstName} onChange={(e) => handleInputChange(e, setFirstName)} />

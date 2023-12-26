@@ -3,7 +3,7 @@ import router from './routes';
 import cors from 'cors';
 import 'dotenv/config';
 import connectdb from './utils/connectdb';
-
+import cookieParser from 'cookie-parser';
 
 const app = express();
 
@@ -12,6 +12,7 @@ const corsOptions = {
     credentials: true, 
   };
 
+app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

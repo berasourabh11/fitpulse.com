@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import jwt, { TokenExpiredError } from 'jsonwebtoken';
 
 const verifyToken = (req: Request, res: Response, next: NextFunction) => {
-    const accessToken = req.headers.authorization?.split(' ')[1];
+    const accessToken = req.cookies.jwt;
 
     if (!accessToken) {
         return res.status(401).json({ message: 'Access token not found' });

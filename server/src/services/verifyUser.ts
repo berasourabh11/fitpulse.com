@@ -1,10 +1,10 @@
 import bcrypt from 'bcrypt';
 import User, { IUserData } from '../models/userDataModel';
 import { generateJWT } from '../utils/jwt';
-import { TokenPair } from '../utils/types';
+import { UserLoginDetails } from '../utils/types';
 
 
-async function verifyUserAndGenerateJWT(username: string, password: string): Promise<TokenPair | null> {
+async function verifyUserAndGenerateJWT(username: string, password: string): Promise<UserLoginDetails | null> {
     try {
         // Find the user in the MongoDB table
         const user = await User.findOne({ username });
@@ -22,8 +22,7 @@ async function verifyUserAndGenerateJWT(username: string, password: string): Pro
 
         // Generate and return a JWT token
         const accesstoken = generateJWT(user, process.env.ACCESS_TOKEN_SECRET as string, process.env.ACCESS_TOKEN_EXPIRY_DURATION as string); 
-        const refreshToken = generateJWT(user, process.env.REFRESH_TOKEN_SECRET as string, process.env.REFRESH_TOKEN_EXPIRY_DURATION as string);
-        return {accesstoken, refreshToken};
+        return {token:accesstoken, username: user.username, email: user.email, firstName: user.firstname, lastName: user.lastname};
     } catch (error) {
         console.error('Error verifying user:', error);
         throw error;

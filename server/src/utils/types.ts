@@ -1,8 +1,11 @@
 import Document from "mongoose";
 
-export type TokenPair = {
-    accesstoken: string;
-    refreshToken: string;
+export type UserLoginDetails = {
+    token: string;
+    username: string;
+    email: string;
+    firstName: string;
+    lastName: string;
 };
 
 export type timeDetails={
