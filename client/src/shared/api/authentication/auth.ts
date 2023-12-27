@@ -1,5 +1,6 @@
 import axios from "axios"
 import { BASE_URL } from "../../../config/properties"
+import { renderToPipeableStream } from "react-dom/server";
 
 export const signUp = async (firstname: string, lastname: string, username: string, email: string, password: string) => {
     try {
@@ -34,14 +35,15 @@ export const signUp = async (firstname: string, lastname: string, username: stri
 }
 
 
-export const login = async (username: string, password: string) => {
+export const login = async (usernameorEmail: string, password: string) => {
     try {
-        const response = await axios.post(BASE_URL + "api/login/", { username, password }, {
+        const response = await axios.post(BASE_URL + "api/login/", { usernameorEmail, password }, {
             headers: {
                 'Content-Type': 'application/json',
             },
             withCredentials: true,
         });
+        return { statusCode: response.status, data: response.data };
     }catch (error) {
         if (axios.isAxiosError(error) && error.response) {
             // Check if the error is an Axios error and has a response
@@ -59,4 +61,27 @@ export const login = async (username: string, password: string) => {
     }
 
 
+}
+
+export const checkLogin=async () => {
+    try{
+        const response=await axios.get(BASE_URL+"api/loginCheck",{
+            withCredentials: true
+          });
+        return {statusCode: response.status, data: response.data};       
+    }catch (e){
+        if (axios.isAxiosError(e) && e.response) {
+            // Check if the error is an Axios error and has a response
+            if (e.response.status === 401) {
+                // Handle the specific case of a 409 status
+                return { statusCode: 409 , data: e.response.data};
+            }
+            console.log('Error during signUp:', e.response);
+            return { statusCode: e.response.status, data: e.response.data };
+        } else {
+            // For non-Axios errors or network errors
+            console.log('Error during signUp:', e);
+            return { statusCode: 500 , data: 'An unexpected error occurred' };
+        }
+    }
 }

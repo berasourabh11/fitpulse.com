@@ -4,15 +4,16 @@ import { generateJWT } from '../utils/jwt';
 import { UserLoginDetails } from '../utils/types';
 
 
-async function verifyUserAndGenerateJWT(username: string, password: string): Promise<UserLoginDetails | null> {
+async function verifyUserAndGenerateJWT(usernameorEmail: string, password: string): Promise<UserLoginDetails | null> {
     try {
         // Find the user in the MongoDB table
-        const user = await User.findOne({ username });
-
+        let user = await User.findOne({ username: usernameorEmail });
+        if(!user) {
+            user = await User.findOne({ email: usernameorEmail });
+        }
         if (!user) {
             return null; // User not found
         }
-
         // Compare the provided password with the stored password hash
         const isPasswordValid = await bcrypt.compare(password, user.password);
 

@@ -34,6 +34,13 @@ router.post("/api/upload",upload.single('file'),async (req,res:Response)=>{
     res.status(200).send("File uploaded successfully");
 });
 
+
+router.get("/api/loginCheck",verifyToken,(req:Request,res:Response)=>{
+    const {username,email,firstname,lastname}=(req as any).user.data;
+    
+    res.status(200).send({username,email,firstname,lastname});
+});
+
 // Define your routes here
 
 router.get("/api/healthcheck",(req:Request,res:Response)=>{

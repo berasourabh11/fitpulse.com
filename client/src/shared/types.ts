@@ -17,3 +17,10 @@ export enum SelectedPage {
     activityName: string;
     imageurl: string;
   };
+
+  export type userDetails = {
+    firstname: string;
+    lastname: string;
+    email: string;
+    username: string;
+  }
