@@ -29,6 +29,7 @@ export const bookSessionController = async (req: Request, res: Response) => {
         // find out day of the week using date which is a string in format DD-MM-YYYY
         const dayInWords = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(new Date(date));
         const activity:IActivity | null = await activitiesModel.findOne({activityName,activityId});
+        console.log(activity,activityName,activityId);
         if (!activity) {
             res.status(400).json({ message: 'Activity not found' });
             return;
@@ -40,7 +41,7 @@ export const bookSessionController = async (req: Request, res: Response) => {
             return;
         }
         // Check if the activity has not passed the current time
-        if(isToday(date) && checkifSessionPassed(date,startTime)){
+        if(checkifSessionPassed(date,startTime)){
             res.status(400).json({ message: 'Session has already passed' });
             return;
         }
@@ -87,13 +88,4 @@ function checkifSessionPassed(date: string, startTime: string) {
         }
     }
     return false;
-}
-function isToday(date: string) {
-    const currentDate = new Date();
-    const sessionDate = new Date(date);
-    return (
-        sessionDate.getDate() === currentDate.getDate() &&
-        sessionDate.getMonth() === currentDate.getMonth() &&
-        sessionDate.getFullYear() === currentDate.getFullYear()
-    );
 }

@@ -21,7 +21,7 @@ const router = createBrowserRouter([
 
 function App() {
   // Call the useAuthModal function to get the values
-  const { authModalState, closeAuthModal, userDetails, set_user_details, unset_user_details } = useAuthModal();
+  const { authModalState, closeAuthModal, set_user_details, unset_user_details } = useAuthModal();
 
   async function checkAuth() {
     const { statusCode, data } = await checkLogin();

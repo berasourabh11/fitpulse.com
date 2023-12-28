@@ -3,7 +3,7 @@ import { z } from "zod";
 const bookSessionSchema = z.object({
     body: z.object({
         activityName: z.string(),
-        activityId: z.string(),
+        activityId: z.number(),
         sessionTime: z.object({
             date: z.string(),
             hours: z.number(),

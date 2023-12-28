@@ -2,7 +2,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 interface IBookedSession extends Document {
     activityName: string;
-    activityId: string;
+    activityId: number;
     activityDate: Date;
     activityTime: string;
     activityDay: string;
@@ -11,7 +11,7 @@ interface IBookedSession extends Document {
 
 const bookedSessionSchema: Schema = new Schema({
     activityName: { type: String, required: true },
-    activityId: { type: String, required: true },
+    activityId: { type: Number, required: true },
     activityDate: { type: String, required: true },
     activityTime: { type: String, required: true },
     activityDay: { type: String, required: true },
