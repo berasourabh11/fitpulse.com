@@ -3,7 +3,7 @@ import { convertTimeTo24HrFormat } from '../utils/convertTimeToSting';
 import activitiesModel from '../models/activitiesModel';
 import { IActivity } from '../utils/types';
 import { IBookedSession, bookedSessionModel } from '../models/bookedSessions';
-import { IUserData } from '../models/userDataModel';
+import userDataModel,{IUserData} from '../models/userDataModel';
 
 interface SessionTime {
     date: string;
@@ -29,7 +29,6 @@ export const bookSessionController = async (req: Request, res: Response) => {
         // find out day of the week using date which is a string in format DD-MM-YYYY
         const dayInWords = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(new Date(date));
         const activity:IActivity | null = await activitiesModel.findOne({activityName,activityId});
-        console.log(activity,activityName,activityId);
         if (!activity) {
             res.status(400).json({ message: 'Activity not found' });
             return;
@@ -56,7 +55,7 @@ export const bookSessionController = async (req: Request, res: Response) => {
 
         // Check if the session is already booked
         if(bookedSession.sessionUsers.includes((req as any).user.data._id)){
-            res.status(400).json({ message: 'Session already booked' });
+            res.status(409).json({ message: 'Session already booked' });
             return;
         }
 
@@ -67,6 +66,13 @@ export const bookSessionController = async (req: Request, res: Response) => {
 
 
         bookedSession.sessionUsers.push((req as any).user.data._id);
+        const user: IUserData | null = await userDataModel.findById((req as any).user.data._id);
+        if(!user){
+            res.status(400).json({ message: 'User not found' });
+            return;
+        }
+        user.bookedActivities.push((req as any).user.data._id);
+        await user.save();
         await bookedSession.save();
         res.status(200).json({ message: 'Session booked successfully' });
     } catch (err) {

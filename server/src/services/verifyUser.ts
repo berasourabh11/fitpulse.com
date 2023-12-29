@@ -23,7 +23,7 @@ async function verifyUserAndGenerateJWT(usernameorEmail: string, password: strin
 
         // Generate and return a JWT token
         const accesstoken = generateJWT(user, process.env.ACCESS_TOKEN_SECRET as string, process.env.ACCESS_TOKEN_EXPIRY_DURATION as string); 
-        return {token:accesstoken, username: user.username, email: user.email, firstName: user.firstname, lastName: user.lastname};
+        return {token:accesstoken, username: user.username, email: user.email, firstName: user.firstname, lastName: user.lastname,id:user._id};
     } catch (error) {
         console.error('Error verifying user:', error);
         throw error;

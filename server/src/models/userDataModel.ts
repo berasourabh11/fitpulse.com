@@ -8,6 +8,8 @@ export interface IUserData extends Document {
   firstname: string;
   lastname: string;
   email: string;
+  bookedActivities: mongoose.Types.ObjectId[]; 
+  tokens: string[];
 }
   const UserData: Schema = new Schema({
     username: { type: String, required: true },
@@ -16,6 +18,15 @@ export interface IUserData extends Document {
     email: { type: String, required: true },
     firstname: { type: String, required: true },
     lastname: { type: String, required: true },
+    bookedActivities: {
+      type: [Schema.Types.ObjectId],
+      ref: 'Users',
+      default: [], // Default value is an empty array
+    },
+    tokens: {
+      type: [String],
+      default: [], // Default value is an empty array
+    },
   });
 
   const UserDataModel = mongoose.model<IUserData>('Users', UserData);

@@ -1,6 +1,7 @@
 import Document from "mongoose";
 
 export type UserLoginDetails = {
+    id: string;
     token: string;
     username: string;
     email: string;

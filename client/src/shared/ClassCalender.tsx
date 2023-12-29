@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { BarLoader } from 'react-spinners';
 import { Activity } from './types';
-import { getSessionsByDate } from './api/apiCalls';
+import { booksession, getSessionsByDate } from './api/apiCalls';
 import ButtonEnableDisable from './ButtonEnableDisable';
 
 type Props = {
     activityDetails: Activity;
+}
+
+type WeekDetails = {
+    startDate: number;
+    startMonth: string;
+    endDate: number;
+    endMonth: string;
+    datesOfWeek: string[];
 }
 
 
@@ -18,17 +26,31 @@ type Session = {
 const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
 const ClassCalender = ({ activityDetails }: Props) => {
-    const [selectedDay, setSelectedDay] = useState<number>(getCurrentWeekdayIndexIST());
-    const [weekOffset, setWeekOffset] = useState<number>(0);
-    const [classDetails, setClassDetails] = useState<Session[] | null>(null);
-    const weekDetails = getWeekDates(weekOffset);
+    const [selectedDay, setSelectedDay] = useState<number>(getCurrentWeekdayIndexIST());  // selected day index 
+    const [weekOffset, setWeekOffset] = useState<number>(0); // week offset from current week
+    const [classDetails, setClassDetails] = useState<Session[] | null>(null); // class details for the selected day
+    const weekDetails:WeekDetails = getWeekDetails(weekOffset); // week details for the selected week 
+
+    async function handleBookSession(startTime:string) {
+        try {
+            const response = await booksession(activityDetails.activityName,activityDetails.activityId, weekDetails.datesOfWeek[selectedDay],startTime);
+            if(response.statusCode === 200){
+                alert("Session booked successfully")
+            }else{
+                response.data && alert(response.data.message);
+            }
+
+        } catch (error) {
+            console.error('Error Booking Session : ', error);
+        }
+    }
+    
     useEffect(() => {
         setClassDetails(null);
         const fetchData = async () => {
             try {
                 const response = await getSessionsByDate(activityDetails.activityName, activityDetails.activityId, weekDetails.datesOfWeek[selectedDay]);
                 setClassDetails(response.sessions);
-                console.log('response', response.sessions);
             } catch (error) {
                 console.error('Error fetching session titles:', error);
             }
@@ -90,7 +112,7 @@ const ClassCalender = ({ activityDetails }: Props) => {
                                     </div>
                                     <div className="text-gray-500">{session.slots} slots available</div>
                                 </div>
-                                <ButtonEnableDisable isEnabled={session.slots > 0 && !isSessionPassed(session.startTime,weekDetails.datesOfWeek[selectedDay])} />
+                                <ButtonEnableDisable onClick={()=>handleBookSession(formatTime(session.startTime))}isEnabled={session.slots > 0 && !isSessionPassed(session.startTime,weekDetails.datesOfWeek[selectedDay])} />
                             </div>
                         ))}
                     </div>
@@ -99,6 +121,7 @@ const ClassCalender = ({ activityDetails }: Props) => {
         </div>
     );
 }
+
 
 
 function isSessionPassed(startTime: string, sessionDate: string): boolean {
@@ -141,13 +164,7 @@ function getCurrentWeekdayIndexIST(): number {
 }
 
 
-function getWeekDates(offset: number): {
-    startDate: number;
-    startMonth: string;
-    endDate: number;
-    endMonth: string;
-    datesOfWeek: string[];
-} {
+function getWeekDetails(offset: number): WeekDetails {
     const istOffset = 5.5 * 60 * 60 * 1000; // Offset for Indian Standard Time in milliseconds (5 hours and 30 minutes)
     const todayIST = new Date(Date.now() + istOffset);
 
