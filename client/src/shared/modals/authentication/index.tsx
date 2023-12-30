@@ -49,7 +49,7 @@ const AuthenticationModal = ({closeAuthModal}: Props) => {
                         </div>
 
                         {/* Modal Panel */}
-                        {toggleSignup ? (<SignUpModal closeSignUpModal={closeSignUpModal} setSuccessMessage={setSuccessMessage} />) : (<LoginModal successMessage={successMessage} openSignUpModal={openSignUpModal} />)}
+                        {toggleSignup ? (<SignUpModal closeSignUpModal={closeSignUpModal} setSuccessMessage={setSuccessMessage} />) : (<LoginModal successMessage={successMessage} openSignUpModal={openSignUpModal} setSuccessMessage={setSuccessMessage}/>)}
 
                     </div>
                 </div>

@@ -14,6 +14,7 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
         next();
     } catch (error) {
         if (error instanceof TokenExpiredError) {
+            res.clearCookie('jwt');
             return res.status(401).json({ message: 'Token expired' });
         }
 

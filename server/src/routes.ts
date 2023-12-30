@@ -17,6 +17,8 @@ import multer from 'multer';
 import cloudinary from './services/cloudinary';
 import bodyParser from 'body-parser';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
+import { createOrder } from './services/payment';
+import { checkLoginController } from './controller/checkLogin';
 
 const cloudStorage = new CloudinaryStorage({
     cloudinary: cloudinary,
@@ -28,18 +30,18 @@ const router = express.Router();
 
 
 //test route for file upload
-router.post("/api/upload",upload.single('file'),async (req,res:Response)=>{
-    console.log(req.file);
-    console.log(req.body);
-    res.status(200).send("File uploaded successfully");
+router.post("/api/payment/createOrder",async (req,res:Response)=>{
+    const paymentstatues=await createOrder(req.body.amount,req.body.currency,req.body.receipt);
+    if(!paymentstatues){
+        res.status(500).send("Error in payment");
+    }else{
+        res.status(200).send(paymentstatues);
+    }
+
 });
 
 
-router.get("/api/loginCheck",verifyToken,(req:Request,res:Response)=>{
-    const {username,email,firstname,lastname}=(req as any).user.data;
-    
-    res.status(200).send({username,email,firstname,lastname});
-});
+router.get("/api/loginCheck",verifyToken,checkLoginController);
 
 // Define your routes here
 

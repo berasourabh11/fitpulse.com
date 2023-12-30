@@ -1,5 +1,7 @@
 import axios from "axios"
 import { BASE_URL } from "../../config/properties"
+import { userDetails as userDetailsType } from "../types";
+import { displayRazorpay } from "./payment/razorpayHandler";
 
 
 export const getSessionsTitles = async () => {
@@ -25,9 +27,14 @@ export const getSessionsByDate = async (activityName: string, activityId: number
   }
 }
 
-export const booksession = async (activityName: string, activityId: number, date: string, time: string) => {
+export const booksession = async (activityName: string, activityId: number, date: string, time: string,userDetails:userDetailsType|null,unsetuserDetailsData:()=>void) => {
   try {
-    console.log(activityName, activityId, date, time);
+    // console.log(activityName, activityId, date, time);
+    if(!userDetails){
+      return {statusCode: 401, data: "Not logged in"}
+    }
+    const paymentDetails=await displayRazorpay(100);
+    console.log(paymentDetails);
     const response = await axios.post(BASE_URL + "api/bookSession/", {
       activityName,
       activityId,
@@ -49,6 +56,7 @@ export const booksession = async (activityName: string, activityId: number, date
     if(axios.isAxiosError(error) && error.response){
       console.log(error.response.data[0])
       if(error.response.status===401){
+        unsetuserDetailsData();
         return {statusCode: 401, data: error.response.data}
       }
       if(error.response.status===400){

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { BarLoader } from 'react-spinners';
-import { Activity } from './types';
+import { Activity} from './types';
 import { booksession, getSessionsByDate } from './api/apiCalls';
 import ButtonEnableDisable from './ButtonEnableDisable';
+import { useAuthModal } from './contexts/AuthModalContext';
 
 type Props = {
     activityDetails: Activity;
@@ -30,14 +31,17 @@ const ClassCalender = ({ activityDetails }: Props) => {
     const [weekOffset, setWeekOffset] = useState<number>(0); // week offset from current week
     const [classDetails, setClassDetails] = useState<Session[] | null>(null); // class details for the selected day
     const weekDetails:WeekDetails = getWeekDetails(weekOffset); // week details for the selected week 
-
+    const {openAuthModal,userDetails,unset_user_details} = useAuthModal();
     async function handleBookSession(startTime:string) {
         try {
-            const response = await booksession(activityDetails.activityName,activityDetails.activityId, weekDetails.datesOfWeek[selectedDay],startTime);
+            
+            const response = await booksession(activityDetails.activityName,activityDetails.activityId, weekDetails.datesOfWeek[selectedDay],startTime,userDetails,unset_user_details);
             if(response.statusCode === 200){
                 alert("Session booked successfully")
+            }else if(response.statusCode === 401){
+                openAuthModal();
             }else{
-                response.data && alert(response.data.message);
+                alert("Something went wrong")
             }
 
         } catch (error) {
@@ -45,6 +49,7 @@ const ClassCalender = ({ activityDetails }: Props) => {
         }
     }
     
+
     useEffect(() => {
         setClassDetails(null);
         const fetchData = async () => {

@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
-import logo from "./../../../assets/logo.png";
 import { login } from '../../api/authentication/auth';
-import { CgCloseR } from "react-icons/cg";
 
 type Props = {
     successMessage: string;
     openSignUpModal: () => void;
+    setSuccessMessage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const LoginModal = ({ successMessage, openSignUpModal }: Props) => {
+const LoginModal = ({ successMessage, openSignUpModal,setSuccessMessage }: Props) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [validationMessage, setValidationMessage] = useState('');
-
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, setter: React.Dispatch<React.SetStateAction<string>>) => {
         setter(e.target.value);
     };
@@ -34,6 +32,14 @@ const LoginModal = ({ successMessage, openSignUpModal }: Props) => {
         } else {
             // Proceed with form submission logic
             const response = await login(email, password);
+            setSuccessMessage("Login Successful");
+            if (response.statusCode === 200) {
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000); 
+            }else{
+                setValidationMessage(response.data.message);
+            }
             console.log(response);
         }
     };
@@ -50,7 +56,9 @@ const LoginModal = ({ successMessage, openSignUpModal }: Props) => {
             {successMessage && <p className="text-green-500 mb-4">{successMessage}</p>}
 
             <div className="space-y-4">
-                <form onSubmit={(e)=>{e.preventDefault();
+                <form onSubmit={
+                    (e)=>{
+                    e.preventDefault();
                      handleSubmit()}}>
                     <input type="text" placeholder='Email' className='w-full border-2 border-gray-300 rounded-md p-2' autoComplete="username" value={email} onChange={(e) => handleInputChange(e, setEmail)} />
                     <input type="password" placeholder='Password' className='w-full border-2 border-gray-300 rounded-md p-2' autoComplete="current-password" value={password} onChange={(e) => handleInputChange(e, setPassword)} />
