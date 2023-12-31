@@ -4,7 +4,7 @@ import { Activity} from './types';
 import { booksession, getSessionsByDate } from './api/apiCalls';
 import ButtonEnableDisable from './ButtonEnableDisable';
 import { useAuthModal } from './contexts/AuthModalContext';
-
+import Swal from 'sweetalert2'
 type Props = {
     activityDetails: Activity;
 }
@@ -17,11 +17,17 @@ type WeekDetails = {
     datesOfWeek: string[];
 }
 
+type bookedUser = {
+    firstname: string;
+    lastname: string;
+    userName: string;
+}
 
 type Session = {
     startTime: string;
     endTime: string;
     slots: number;
+    users?: bookedUser[];
 }
 
 const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
@@ -35,13 +41,23 @@ const ClassCalender = ({ activityDetails }: Props) => {
     async function handleBookSession(startTime:string) {
         try {
             
-            const response = await booksession(activityDetails.activityName,activityDetails.activityId, weekDetails.datesOfWeek[selectedDay],startTime,userDetails,unset_user_details);
-            if(response.statusCode === 200){
-                alert("Session booked successfully")
-            }else if(response.statusCode === 401){
+            const {statusCode,data} = await booksession(activityDetails.activityName,activityDetails.activityId, weekDetails.datesOfWeek[selectedDay],startTime,userDetails,unset_user_details);
+            if(statusCode=== 200){
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Session Booked Successfully',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                  })
+            }else if(statusCode === 401){
                 openAuthModal();
             }else{
-                alert("Something went wrong")
+                Swal.fire({
+                    title: 'ERROR!',
+                    text: data,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                  })
             }
 
         } catch (error) {
@@ -62,6 +78,16 @@ const ClassCalender = ({ activityDetails }: Props) => {
         }
         fetchData();
     }, [selectedDay])
+
+    function checkSessionAlreadyBooked(session: Session, username: string|undefined): boolean {
+        if(!username)return false;
+        if (session.users === undefined) return false;
+        for (let i = 0; i < session.users.length; i++) {
+            if (session.users[i].userName === username) return true;
+        }
+        return false;
+    }
+
     return (
         <div>
             {/* //*Calender Component */}
@@ -117,7 +143,13 @@ const ClassCalender = ({ activityDetails }: Props) => {
                                     </div>
                                     <div className="text-gray-500">{session.slots} slots available</div>
                                 </div>
-                                <ButtonEnableDisable onClick={()=>handleBookSession(formatTime(session.startTime))}isEnabled={session.slots > 0 && !isSessionPassed(session.startTime,weekDetails.datesOfWeek[selectedDay])} />
+                                <ButtonEnableDisable onClick={()=>handleBookSession(formatTime(session.startTime))} isEnabled={
+                                    session.slots > 0 
+                                    && 
+                                    !isSessionPassed(session.startTime,weekDetails.datesOfWeek[selectedDay]) 
+                                    &&
+                                    !checkSessionAlreadyBooked(session,userDetails?.username)
+                                    }  />
                             </div>
                         ))}
                     </div>

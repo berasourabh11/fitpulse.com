@@ -62,9 +62,9 @@ const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
                     <p className="cursor-pointer" onClick={openAuthModal}>Sign In</p>
                   )}
                   <CustomButton
-                    onClick={() => handleNavigation('/book-a-class')}
+                    onClick={() => {console.log("clicked")}}
                   >
-                    Book a Class
+                    Our Store
                   </CustomButton>
                 </div>
               </div>) :

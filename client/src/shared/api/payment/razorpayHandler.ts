@@ -60,9 +60,29 @@ export const displayRazorpay = async (amount: number) => {
             name: "FitPulse",
             description: "This is just a test transaction",
             image: "https://picsum.photos/200",
-            handler: function (response: any) {
+            handler: async function (response: any) {
                 // Payment was successful, resolve the promise
-                resolve(response);
+                try{
+                    const verifyPayment=await axios.post(BASE_URL + "api/payment/verifyPayment/", {
+                        razorpay_payment_id: response.razorpay_payment_id,
+                        razorpay_order_id: response.razorpay_order_id,
+                        razorpay_signature: response.razorpay_signature
+                    }, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        withCredentials: true
+                    });
+                    if(verifyPayment.status===200){
+                        resolve(true);
+                    }
+                }catch(e){
+                    if(axios.isAxiosError(e)){
+                        console.log(e.response);
+                    }
+                    reject(false);
+                }
+                
             },
             prefill: {
                 name: "Sourabh Bera",
@@ -75,7 +95,7 @@ export const displayRazorpay = async (amount: number) => {
 
         paymentObject.on('payment.failed', function (response: any) {
             // Payment failed, reject the promise
-            reject(response.error);
+            reject(false);
         });
     });
 };

@@ -34,7 +34,9 @@ export const booksession = async (activityName: string, activityId: number, date
       return {statusCode: 401, data: "Not logged in"}
     }
     const paymentDetails=await displayRazorpay(100);
-    console.log(paymentDetails);
+    if(paymentDetails===false){
+      return {statusCode: 500, data: "Payment Failed"}
+    }
     const response = await axios.post(BASE_URL + "api/bookSession/", {
       activityName,
       activityId,

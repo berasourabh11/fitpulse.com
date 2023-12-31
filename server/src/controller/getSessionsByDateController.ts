@@ -12,7 +12,10 @@ export const getSessionsByDateController = async (req: Request, res: Response) =
     const bookedSessions = await bookedSessionModel.find({ activityName, activityId, activityDate: date }).populate('sessionUsers');
     const bookedSessionsByTime: any = {};
 
-    if (activity === null) {
+    if(activity === null) {
+      return res.status(400).json({message: 'Activity not found' });
+    }
+    if (bookedSessionModel === null) {
       return res.status(400).json({ sessions: [] });
     }
     if (bookedSessions !== null) {
@@ -33,7 +36,7 @@ export const getSessionsByDateController = async (req: Request, res: Response) =
         startTime: session.startTime,
         endTime: session.endTime,
         slots: session.slots - (bookedSessionsByTime[session.startTime] ? bookedSessionsByTime[session.startTime].length : 0),
-        // users: bookedSessionsByTime[session.startTime],
+        users: bookedSessionsByTime[session.startTime],
       }
     }
     );

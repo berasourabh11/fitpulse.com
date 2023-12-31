@@ -19,6 +19,7 @@ import bodyParser from 'body-parser';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import { createOrder } from './services/payment';
 import { checkLoginController } from './controller/checkLogin';
+import verfiyPaymentController from './controller/verifyPaymentController';
 
 const cloudStorage = new CloudinaryStorage({
     cloudinary: cloudinary,
@@ -75,6 +76,9 @@ router.post("/api/booksession/",verifyToken,validate(bookSessionSchema),bookSess
 router.get("/api/getAllActivities/",getAllActivitiesController);
 
 router.get("/api/getActivitySchedule/",getActivityScheduleController);
+
+
+router.post('/api/payment/verifyPayment', verfiyPaymentController);
 
 
 export default router;
