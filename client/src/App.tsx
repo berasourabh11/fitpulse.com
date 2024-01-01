@@ -7,6 +7,9 @@ import AuthenticationModal from "./shared/modals/authentication/";
 import { AuthModalContextProvider, useAuthModal } from "./shared/contexts/AuthModalContext";
 import { useEffect } from "react";
 import { checkLogin } from "./shared/api/authentication/auth";
+import Login from "../src/scenes/profile"
+
+
 
 const router = createBrowserRouter([
   {
@@ -14,8 +17,8 @@ const router = createBrowserRouter([
     element: <HomepageRoutes />,
   },
   {
-    path: "/book-a-class",
-    element: <h1>Book A Class</h1>,
+    path: "/profile",
+    element: <Login/>,
   },
 ]);
 

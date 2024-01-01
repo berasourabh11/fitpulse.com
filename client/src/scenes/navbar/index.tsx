@@ -113,7 +113,9 @@ const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
             {userDetails ? (
               <Profile username={userDetails.username} />
             ) : (
-              <p className="cursor-pointer" onClick={()=>{setIsMenuToggled(isMenuToggled);openAuthModal();}}>Sign In</p>
+              <p className="cursor-pointer" onClick={()=>{
+                setIsMenuToggled(isMenuToggled);openAuthModal();
+              }}>Sign In</p>
             )}
           </div>
         </div>

@@ -20,6 +20,7 @@ import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import { createOrder } from './services/payment';
 import { checkLoginController } from './controller/checkLogin';
 import verfiyPaymentController from './controller/verifyPaymentController';
+import { getBookedSessionsController } from './controller/getBookedSessionsController';
 
 const cloudStorage = new CloudinaryStorage({
     cloudinary: cloudinary,
@@ -79,6 +80,13 @@ router.get("/api/getActivitySchedule/",getActivityScheduleController);
 
 
 router.post('/api/payment/verifyPayment', verfiyPaymentController);
+
+router.post('/api/logout', async (req, res) => {
+    res.clearCookie('jwt');
+    res.status(200).json({ message: 'Logged out successfully' });
+});
+
+router.get('/api/getBookedSessions', verifyToken , getBookedSessionsController);
 
 
 export default router;

@@ -19,7 +19,7 @@ export interface IUserData extends Document {
     lastname: { type: String, required: true },
     bookedActivities: {
       type: [Schema.Types.ObjectId],
-      ref: 'Users',
+      ref: 'bookedsessions',
       default: [], // Default value is an empty array
     },
   });

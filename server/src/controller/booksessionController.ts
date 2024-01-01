@@ -39,8 +39,9 @@ export const bookSessionController = async (req: Request, res: Response) => {
             res.status(400).json({ message: 'Session not found' });
             return;
         }
-        // Check if the activity has not passed the current time
-        if(checkifSessionPassed(date,startTime)){
+        // Check if the activity has not passed the current tim
+        console.log(date,startTime);
+        if(checkIfSessionPassed(date,startTime)){
             res.status(400).json({ message: 'Session has already passed' });
             return;
         }
@@ -71,7 +72,7 @@ export const bookSessionController = async (req: Request, res: Response) => {
             res.status(400).json({ message: 'User not found' });
             return;
         }
-        user.bookedActivities.push((req as any).user.data._id);
+        user.bookedActivities.push(bookedSession._id);
         await user.save();
         await bookedSession.save();
         res.status(200).json({ message: 'Session booked successfully' });
@@ -81,17 +82,10 @@ export const bookSessionController = async (req: Request, res: Response) => {
     }
 };
 
-function checkifSessionPassed(date: string, startTime: string) {
+function checkIfSessionPassed(date:string, startTime:string) {
     const currentDate = new Date();
-    const sessionDate = new Date(date);
-    const sessionTime = new Date(startTime);
-    if (sessionDate < currentDate) {
-        return true;
-    }
-    if (sessionDate === currentDate) {
-        if (sessionTime < currentDate) {
-            return true;
-        }
-    }
-    return false;
+    const sessionDateTime = new Date(`${date}T${startTime}`);
+
+    // Check if the session date and time is before the current date and time
+    return sessionDateTime < currentDate;
 }

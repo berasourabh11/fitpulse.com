@@ -9,8 +9,13 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
     }
 
     try {
-        const decryptedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET as string) as { userId: string, email: string };
-        (req as any).user = decryptedToken;
+        const decryptedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET as string);
+        req.user = decryptedToken as { data: {
+            _id: string;
+            username: string;
+            role: 'user' | 'admin';
+            email: string;
+        } };
         next();
     } catch (error) {
         if (error instanceof TokenExpiredError) {
