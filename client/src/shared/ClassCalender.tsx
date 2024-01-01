@@ -48,7 +48,13 @@ const ClassCalender = ({ activityDetails }: Props) => {
                     text: 'Session Booked Successfully',
                     icon: 'success',
                     confirmButtonText: 'OK'
-                  })
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Code to re-render the component or perform an action
+                        // For example, you can fetch the updated class details
+                        fetchData();
+                    }
+                });
             }else if(statusCode === 401){
                 openAuthModal();
             }else{
@@ -65,29 +71,31 @@ const ClassCalender = ({ activityDetails }: Props) => {
         }
     }
     
-
+    const fetchData = async () => {
+        try {
+            const response = await getSessionsByDate(activityDetails.activityName, activityDetails.activityId, weekDetails.datesOfWeek[selectedDay]);
+            setClassDetails(response.sessions);
+        } catch (error) {
+            console.error('Error fetching session titles:', error);
+        }
+    }
     useEffect(() => {
         setClassDetails(null);
-        const fetchData = async () => {
-            try {
-                const response = await getSessionsByDate(activityDetails.activityName, activityDetails.activityId, weekDetails.datesOfWeek[selectedDay]);
-                setClassDetails(response.sessions);
-            } catch (error) {
-                console.error('Error fetching session titles:', error);
-            }
-        }
+
         fetchData();
     }, [selectedDay])
+
 
     function checkSessionAlreadyBooked(session: Session, username: string|undefined): boolean {
         if(!username)return false;
         if (session.users === undefined) return false;
         for (let i = 0; i < session.users.length; i++) {
-            if (session.users[i].userName === username) return true;
+            if (session.users[i].userName === username) {
+                return true;
+            }
         }
         return false;
     }
-
     return (
         <div>
             {/* //*Calender Component */}
@@ -149,7 +157,7 @@ const ClassCalender = ({ activityDetails }: Props) => {
                                     !isSessionPassed(session.startTime,weekDetails.datesOfWeek[selectedDay]) 
                                     &&
                                     !checkSessionAlreadyBooked(session,userDetails?.username)
-                                    }  />
+                                }>{checkSessionAlreadyBooked(session,userDetails?.username)?"Already Booked":"Book Now"}</ButtonEnableDisable>
                             </div>
                         ))}
                     </div>

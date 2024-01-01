@@ -32,8 +32,9 @@ const LoginModal = ({ successMessage, openSignUpModal,setSuccessMessage }: Props
         } else {
             // Proceed with form submission logic
             const response = await login(email, password);
-            setSuccessMessage("Login Successful");
+            
             if (response.statusCode === 200) {
+                setSuccessMessage("Login Successful");
                 setTimeout(() => {
                     window.location.reload();
                 }, 1000); 
