@@ -21,6 +21,7 @@ import { createOrder } from './services/payment';
 import { checkLoginController } from './controller/checkLogin';
 import verfiyPaymentController from './controller/verifyPaymentController';
 import { getBookedSessionsController } from './controller/getBookedSessionsController';
+import { getUpcomingSessionController } from './controller/getUpcomingSessionsConrtoller';
 
 const cloudStorage = new CloudinaryStorage({
     cloudinary: cloudinary,
@@ -87,6 +88,6 @@ router.post('/api/logout', async (req, res) => {
 });
 
 router.get('/api/getBookedSessions', verifyToken , getBookedSessionsController);
-
+router.get('/api/getUpcomingBookedSessions', verifyToken , getUpcomingSessionController);
 
 export default router;
