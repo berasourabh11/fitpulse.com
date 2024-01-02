@@ -8,7 +8,7 @@ import cookieParser from 'cookie-parser';
 const app = express();
 
 const corsOptions = {
-    origin: 'http://localhost:5173', 
+    origin: 'https://fit-pulse-n4m4.onrender.com', 
     credentials: true, 
 };
 

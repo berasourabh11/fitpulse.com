@@ -16,7 +16,8 @@
   },
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
-    "vercel-build": "echo hello"
+    "build": "tsc",
+    "start": "node build/index.js"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
