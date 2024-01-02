@@ -15,7 +15,8 @@
     "zod": "^3.22.4"
   },
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/app.ts"
+    "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
+    "vercel-build": "echo hello"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",

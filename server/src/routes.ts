@@ -61,7 +61,6 @@ router.post("/api/addActivty/", upload.single('file'),(req, res, next) => {
     if (req.body.activityDetails) {
         req.body.activityDetails = JSON.parse(req.body.activityDetails);
     }
-    console.log(req.body);
     next();
 },validate(addActivitySchema), addActivityController);
 
