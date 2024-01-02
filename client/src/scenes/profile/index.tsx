@@ -12,8 +12,8 @@ import { useNavigate } from 'react-router-dom';
 const ProfilePage = () => {
     const { userDetails } = useAuthModal();
     const [activeButton, setActiveButton] = useState<string>('Upcoming')
-    const [bookedSessions, setBookedSessions] = useState<BookedActivity[] | null >(null);
-    const navigate=useNavigate();
+    const [bookedSessions, setBookedSessions] = useState<BookedActivity[] | null>(null);
+    const navigate = useNavigate();
     useEffect(() => {
         fetchSessions();
     }, [activeButton]);
@@ -21,14 +21,14 @@ const ProfilePage = () => {
     const fetchSessions = async () => {
         setBookedSessions(null);
         let response;
-        if(activeButton==='All'){
-            response=await getUserBookedSessions({all:true});
-        }else{
-            response=await getUserBookedSessions();
+        if (activeButton === 'All') {
+            response = await getUserBookedSessions({ all: true });
+        } else {
+            response = await getUserBookedSessions();
         }
-        if(response.statusCode===200){
+        if (response.statusCode === 200) {
             setBookedSessions(response.data);
-        }else{
+        } else {
             setBookedSessions([]);
         }
 
@@ -40,22 +40,22 @@ const ProfilePage = () => {
     };
 
     const handleLogout = async () => {
-        try{
-            const response=await logout();
-            if(response.statusCode===200){
+        try {
+            const response = await logout();
+            if (response.statusCode === 200) {
                 Swal.fire({
                     title: 'Success!',
                     text: 'Session Booked Successfully',
                     icon: 'success',
                     confirmButtonText: 'OK'
-                  }).then((result) => {
+                }).then((result) => {
                     if (result.isConfirmed) {
                         navigate('/');
                         window.location.reload();
                     }
                 });
-            }            
-        }catch(e){
+            }
+        } catch (e) {
             console.log(e);
         }
     }
@@ -67,11 +67,11 @@ const ProfilePage = () => {
                     <h1 className='text-3xl text-dark'>Profile</h1>
                 </div>
                 <img src={Logo} alt="" onClick={
-                    ()=>{
+                    () => {
                         navigate('/');
                     }
                 }
-                className='cursor-pointer'
+                    className='cursor-pointer'
                 />
             </div>
 
@@ -93,7 +93,7 @@ const ProfilePage = () => {
                                 </div>
                             </div>
                             <div className='w-full flex justify-end'>
-                            <button 
+                                <button
                                     className='px-4 py-2 mt-4 mr-0 bg-red-500 text-white rounded hover:bg-red-600 transition-colors'
                                     onClick={handleLogout}
                                 >
@@ -126,13 +126,27 @@ const ProfilePage = () => {
                 </div>
 
                 <div className="w-3/5 mx-auto mt-4">
-                    {bookedSessions && bookedSessions.map(session => (
-                        <div key={session._id} className="border-b border-gray-300 py-2">
-                            <h2 className="text-xl font-semibold">{session.activityName}</h2>
-                            <p>Date: {session.activityDate} at {session.activityTime}</p>
-                            <p>Day: {session.activityDay}</p>
+                    {bookedSessions === null ? (
+                        // Render a loading bar or indicator when bookedSessions is null
+                        <div className="text-center py-4">
+                            <p>Loading sessions...</p>
+                            {/* Replace with your loading bar component if you have one */}
                         </div>
-                    ))}
+                    ) : bookedSessions.length === 0 ? (
+                        // Render "No sessions found" when bookedSessions is an empty array
+                        <div className="text-center py-4">
+                            <p>No sessions found.</p>
+                        </div>
+                    ) : (
+                        // Render the sessions when bookedSessions has data
+                        bookedSessions.map(session => (
+                            <div key={session._id} className="border-b border-gray-300 py-2">
+                                <h2 className="text-xl font-semibold">{session.activityName}</h2>
+                                <p>Date: {session.activityDate} at {session.activityTime}</p>
+                                <p>Day: {session.activityDay}</p>
+                            </div>
+                        ))
+                    )}
                 </div>
             </div>
         </div>
