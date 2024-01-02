@@ -75,28 +75,24 @@ const ProfilePage = () => {
                 />
             </div>
 
-            <div className='w-full flex items-center'>
-                <div className='w-3/5 mx-auto'>
+            <div className='flex flex-col items-center w-full px-4 py-5'>
+                <div className='w-full sm:w-3/5 mx-auto'>
                     {userDetails ? (
-                        <div className="shadow-lg rounded-lg overflow-hidden p-5">
-                            <div className="sm:flex sm:items-center px-6 py-4">
-                                {/* Each child div now has a defined width of 1/3 of the parent */}
-                                <div className="w-1/3 mt-4 sm:mt-0 sm:ml-4 text-center sm:text-left">
-                                    <p className="text-5xl mt-2 text-highlight text-black py-4">{userDetails.username}</p>
+                        <div className="shadow-lg rounded-lg overflow-hidden p-4">
+                            <div className="flex flex-col sm:flex-row items-center">
+                                <div className="w-full sm:w-1/3 text-center">
+                                    <p className="text-3xl sm:text-5xl text-highlight text-black">{userDetails.username}</p>
                                 </div>
-                                <div className="w-1/3">
-                                    <img src={profile} alt="profile pic" />
+                                <div className="w-20 h-20 sm:w-32 sm:h-32 mx-auto my-4">
+                                    <img src={profile} alt="Profile" className="rounded-full w-full h-full object-cover" />
                                 </div>
-                                <div className="w-1/3 mt-4 sm:mt-0 sm:ml-4 text-center sm:text-left">
-                                    <p className="text-3xl leading-tight text-dark p-3">{userDetails?.firstname} {userDetails?.lastname}</p>
-                                    <p className="text-xl leading-tight text-secondary p-3">{userDetails.email}</p>
+                                <div className="w-full sm:w-1/3 text-center sm:text-left">
+                                    <p className="text-xl sm:text-3xl text-dark">{userDetails.firstname} {userDetails.lastname}</p>
+                                    <p className="text-lg sm:text-xl text-secondary">{userDetails.email}</p>
                                 </div>
                             </div>
-                            <div className='w-full flex justify-end'>
-                                <button
-                                    className='px-4 py-2 mt-4 mr-0 bg-red-500 text-white rounded hover:bg-red-600 transition-colors'
-                                    onClick={handleLogout}
-                                >
+                            <div className='w-full flex justify-end mt-4'>
+                                <button className='px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors' onClick={handleLogout}>
                                     Logout
                                 </button>
                             </div>
