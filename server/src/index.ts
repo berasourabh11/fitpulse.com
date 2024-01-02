@@ -7,7 +7,7 @@ import cookieParser from 'cookie-parser';
 
 const app = express();
 
-const allowedOrigins = ["https://fit-pulse-n4m4.onrender.com","http://localhost:5173/"];
+const allowedOrigins = ["https://fit-pulse-n4m4.onrender.com","http://localhost:5173"];
 
 const corsOptions: cors.CorsOptions = {
     origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
