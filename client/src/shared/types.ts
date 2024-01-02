@@ -24,3 +24,14 @@ export enum SelectedPage {
     email: string;
     username: string;
   }
+
+  export type BookedActivity = {
+    _id: string;
+    activityName: string;
+    activityId: number;
+    activityDate: string;
+    activityTime: string;
+    activityDay: string;
+    sessionUsers: string[];
+  };
+  

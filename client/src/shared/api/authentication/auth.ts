@@ -86,3 +86,15 @@ export const checkLogin=async () => {
     }
 }
 
+
+export const logout=async () => {
+    try{
+        const response=await axios.get(BASE_URL+"api/logout",{
+            withCredentials: true
+          });
+        return {statusCode: response.status, data: response.data};       
+    }catch (e){
+        console.log(e);
+        return { statusCode: 500 , data: 'An unexpected error occurred' };
+    }
+}

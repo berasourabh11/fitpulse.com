@@ -38,5 +38,5 @@ export const getUpcomingSessionController = async (req: Request, res: Response) 
         return activityDateTime > currentDate;
     });
     
-    return res.status(200).json({upcomingSession});
+    return res.status(200).json(upcomingSession);
 };

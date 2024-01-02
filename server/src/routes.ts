@@ -82,7 +82,7 @@ router.get("/api/getActivitySchedule/",getActivityScheduleController);
 
 router.post('/api/payment/verifyPayment', verfiyPaymentController);
 
-router.post('/api/logout', async (req, res) => {
+router.get('/api/logout', async (req, res) => {
     res.clearCookie('jwt');
     res.status(200).json({ message: 'Logged out successfully' });
 });
