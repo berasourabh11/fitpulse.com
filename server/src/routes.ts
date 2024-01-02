@@ -43,6 +43,11 @@ router.post("/api/payment/createOrder",async (req,res:Response)=>{
 
 });
 
+router.get("/",(req:Request,res:Response)=>{
+    res.status(200).send("I am alive");
+});
+
+
 
 router.get("/api/loginCheck",verifyToken,checkLoginController);
 
