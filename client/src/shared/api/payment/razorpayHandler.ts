@@ -95,6 +95,7 @@ export const displayRazorpay = async (amount: number) => {
 
         paymentObject.on('payment.failed', function (response: any) {
             // Payment failed, reject the promise
+            console.log(response.error.code);
             reject(false);
         });
     });

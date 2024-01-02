@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import logo from '../../../assets/logo.png';
+import React, { useState } from 'react';
 import { signUp } from '../../api/authentication/auth';
 
 type Props = {

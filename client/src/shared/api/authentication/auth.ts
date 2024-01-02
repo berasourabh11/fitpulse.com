@@ -1,6 +1,5 @@
 import axios from "axios"
 import { BASE_URL } from "../../../config/properties"
-import { renderToPipeableStream } from "react-dom/server";
 
 export const signUp = async (firstname: string, lastname: string, username: string, email: string, password: string) => {
     try {

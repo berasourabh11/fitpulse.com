@@ -1,6 +1,5 @@
 // ClassModal.tsx
-import React, { useState } from 'react';
-import Crossfit from '../../assets/Crossfit.jpg';
+import React from 'react';
 import ClassCalender from '../../shared/ClassCalender';
 import { Activity } from '../../shared/types';
 
@@ -9,12 +8,12 @@ type ClassModalProps = {
   closeModal: () => void;
 };
 
-type WeekDetails = {
-  startDate: number;
-  startMonth: string;
-  endDate: number;
-  endMonth: string;
-};
+// type WeekDetails = {
+//   startDate: number;
+//   startMonth: string;
+//   endDate: number;
+//   endMonth: string;
+// };
 
 
 const ClassModal: React.FC<ClassModalProps> = ({ activityDetails, closeModal }) => {

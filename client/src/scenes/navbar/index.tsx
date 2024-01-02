@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import { Bars3Icon } from '@heroicons/react/24/solid';
 import { XMarkIcon } from "@heroicons/react/20/solid";
 import Logo from "@/assets/logo.png";
 import Link from "./link";
 import { SelectedPage } from "../../shared/types";
 import useMediaQuery from "../../hooks/useMediaQuery ";
-import ActionButton from "../../shared/ActionButton";
 import CustomButton from "../../shared/CustomButton";
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { useAuthModal } from "../../shared/contexts/AuthModalContext";
 import Profile from "./Profile";
 
@@ -24,11 +23,11 @@ const Navbar = ({ isTopOfPage, selectedPage, setSelectedPage }: Props) => {
   const isAboveMediumScreen = useMediaQuery("(min-width:1060px)");
   const navbarBackground = isTopOfPage ? "" : "bg-primary-100 drop-shadow";
   const { userDetails } = useAuthModal();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const handleNavigation = (path: string) => {
-    navigate(path);
-  };
+  // const handleNavigation = (path: string) => {
+  //   navigate(path);
+  // };
 
   return (
     <nav>

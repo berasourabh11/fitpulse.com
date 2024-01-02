@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuthModal } from '../../shared/contexts/AuthModalContext';
 import Logo from "../../assets/logo.png"
 import profile from "../../assets/profile.jpg"

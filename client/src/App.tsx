@@ -4,7 +4,7 @@ import {
 } from "react-router-dom";
 import HomepageRoutes from "./HomepageRoutes";
 import AuthenticationModal from "./shared/modals/authentication/";
-import { AuthModalContextProvider, useAuthModal } from "./shared/contexts/AuthModalContext";
+import { useAuthModal } from "./shared/contexts/AuthModalContext";
 import { useEffect } from "react";
 import { checkLogin } from "./shared/api/authentication/auth";
 import Login from "../src/scenes/profile"

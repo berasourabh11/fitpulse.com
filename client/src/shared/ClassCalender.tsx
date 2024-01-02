@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { BarLoader } from 'react-spinners';
 import { Activity} from './types';
 import { booksession, getSessionsByDate } from './api/apiCalls';
